@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import BottomSheet from '../components/BottomSheet';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
-import { getBusStopIcon, getPOIIcon } from '../utils/icons';
+import { getBusStopIcon, getPOIIcon, getUserLocationIcon } from '../utils/icons';
 
 // Import the new service and component
 import { 
@@ -159,6 +159,15 @@ const Map = ({ stops = [], pois = [], center = AUSTIN_CENTER, zoom = DEFAULT_ZOO
           />
         )}
 
+        {/* Render user's current location marker */}
+        {center && (
+          <Marker
+            position={center}
+            icon={getUserLocationIcon()}
+            title="Your Location"
+          />
+        )}
+
         {/* Render bus stop markers */}
         {stops.map((stop, index) => {
           // Handle different possible field names for coordinates
@@ -202,6 +211,8 @@ const Map = ({ stops = [], pois = [], center = AUSTIN_CENTER, zoom = DEFAULT_ZOO
           );
         })}
 
+
+        {/* Render bus stop markers */}
         {/* Render filtered POI markers - now using filteredPois instead of pois */}
         {filteredPois.map((poi, index) => {
           // Handle different possible field names for coordinates
@@ -210,8 +221,9 @@ const Map = ({ stops = [], pois = [], center = AUSTIN_CENTER, zoom = DEFAULT_ZOO
           
           if (!lat || !lng) return null;
 
-          const amenityCategory = poi.amenity_category || poi.category || '';
-          const icon = getPOIIcon(amenityCategory);
+          const amenity = poi.amenity || poi.category || '';
+
+          const icon = getPOIIcon(amenity);
           const markerId = `poi-${index}`;
           const isActive = activeMarker === markerId;
 
@@ -220,7 +232,7 @@ const Map = ({ stops = [], pois = [], center = AUSTIN_CENTER, zoom = DEFAULT_ZOO
               <Marker
                 position={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
                 icon={icon}
-                title={poi.name || poi.poi_name || amenityCategory || 'POI'}
+                title={poi.name || poi.poi_name || amenity || 'POI'}
                 onClick={() => handleMarkerClick(markerId)}
               />
               {isActive && (

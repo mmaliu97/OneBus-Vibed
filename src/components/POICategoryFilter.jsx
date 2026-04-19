@@ -12,10 +12,10 @@ const POICategoryFilter = ({
   return (
     <div className="poi-filter-container">
       <div className="poi-filter-header">
-        <span className="poi-filter-title">Filter POIs</span>
+        <span className="poi-filter-title">Points of Interest</span>
         <span className="poi-filter-count">
-          {selectedCategories.size} selected
-        </span>
+  {selectedCategories.size} {selectedCategories.size === 1 ? 'category' : 'categories'} selected
+</span>
       </div>
       
       <div className="poi-filter-list">

@@ -33,7 +33,13 @@ body {
   font-weight: 600;
   margin-bottom: 12px;
 }
-
+.logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
 .controls {
   display: flex;
   align-items: center;
@@ -124,8 +130,8 @@ body {
   display: inline-flex;
   align-items: center;
   padding: 6px 12px;
-  background-color: #f5f5f5;
-  border: 1px solid #e0e0e0;
+  background-color: #ffffff;
+  border: 1px solid #c6c6c6;
   border-radius: 30px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -136,8 +142,8 @@ body {
 }
 
 .filter-wrapper .poi-filter-item:hover {
-  background-color: #eeeeee;
-  border-color: #d0d0d0;
+  background-color: #ffffff;
+  border-color: #c6c6c6;
 }
 
 .filter-wrapper .poi-filter-item.selected {
@@ -155,7 +161,7 @@ body {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: #ccc;
+  background-color: #1f1f1f;
   margin-right: 6px;
   transition: background-color 0.2s;
 }
@@ -185,6 +191,11 @@ body {
   background-color: rgba(255,255,255,0.2);
   color: white;
 }
+
+.filter-wrapper .poi-filter-item.selected .poi-filter-name {
+  color: white;
+}
+
 
 .filter-wrapper .poi-filter-actions {
   display: flex;
@@ -224,7 +235,7 @@ body {
 
 .filter-wrapper .poi-filter-btn.select-all {
   color: #667eea;
-  border-color: #c5cae9;
+  border-color: #d6daf5;
 }
 
 .filter-wrapper .poi-filter-btn.select-all:hover {
@@ -343,6 +354,7 @@ body {
 
   .filter-wrapper .poi-filter-name {
     font-size: 11px;
+    color: rgb(39, 39, 39);
   }
 
   .filter-wrapper .poi-filter-badge {

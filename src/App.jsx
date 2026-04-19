@@ -4,6 +4,7 @@ import Map from './components/Map';
 import LocationButton from './components/LocationButton';
 import POICategoryFilter from './components/POICategoryFilter'; // Import the filter
 import './styles/App.css';
+import onebusLogo from './assets/images/onebus-logo.svg';
 
 const AUSTIN_CENTER = { lat: 30.2672, lng: -97.7431 };
 const DEFAULT_ZOOM = 13;
@@ -16,7 +17,7 @@ function App() {
   const [error, setError] = useState(null);
   const [mapCenter, setMapCenter] = useState(AUSTIN_CENTER);
   const [mapZoom, setMapZoom] = useState(DEFAULT_ZOOM);
-  
+
   // New state for POI filtering
   const [selectedCategories, setSelectedCategories] = useState(new Set());
   const [availableCategories, setAvailableCategories] = useState([]);
@@ -25,15 +26,16 @@ function App() {
   // Extract categories when POIs change
   useEffect(() => {
     if (pois.length > 0) {
-      const categories = [...new Set(pois.map(poi => poi.amenity_category || poi.category || 'Other').filter(Boolean))];
+      const categories = [...new Set(pois.map(poi => poi.amenity || poi.category || 'Other').filter(Boolean))];
       setAvailableCategories(categories);
       // Set default selected categories (maybe all or a subset)
-      setSelectedCategories(new Set(categories)); // Select all by default
-      
+
+      setSelectedCategories(new Set()); // Select none by default    
+        
       // Calculate counts
       const counts = {};
       pois.forEach(poi => {
-        const cat = poi.amenity_category || poi.category || 'Other';
+        const cat = poi.amenity || poi.category || 'Other';
         counts[cat] = (counts[cat] || 0) + 1;
       });
       setCategoryCounts(counts);
@@ -63,7 +65,7 @@ function App() {
 
   // Filter POIs based on selected categories
   const filteredPois = pois.filter(poi => {
-    const category = poi.amenity_category || poi.category || 'Other';
+    const category = poi.amenity || poi.category || 'Other';
     return selectedCategories.has(category);
   });
 
@@ -139,14 +141,12 @@ function App() {
   return (
     <div className="app-container">
       <div className="header">
-        <h1>OneBus - Bus Stops & POIs</h1>
-        <div className="controls">
-          <LocationButton 
-            onClick={getCurrentLocation} 
-            loading={loading}
-            disabled={loading}
-          />
-        </div>
+        <img 
+          src={onebusLogo} 
+          alt="OneBus Logo" 
+          className="logo"
+        />
+        
         
         {/* Add filter directly below the button, in the header */}
         {availableCategories.length > 0 && (
@@ -185,12 +185,12 @@ function App() {
         />
       </div>
 
-      <div className="footer">
+      {/* <div className="footer">
         <div className="stats">
           {stops.length > 0 && <span>{stops.length} Bus Stop{stops.length !== 1 ? 's' : ''}</span>}
           {pois.length > 0 && <span>{filteredPois.length} of {pois.length} POI{pois.length !== 1 ? 's' : ''}</span>}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
